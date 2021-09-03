@@ -1,11 +1,11 @@
-package jhony.villani.springboot2.domain.start;
+package jhony.villani.springboot2;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
 @EnableAutoConfiguration
-@ComponentScan(basePackages = "jhony.villani.springboot2")
+@ComponentScan //escaneia o pacote em que se encontra
 public class ApplicationStart {
     public static void main(String[] args) {
         SpringApplication.run(ApplicationStart.class, args);

@@ -1,2 +1,4 @@
-start\ApplicationStart.class
+jhony\villani\springboot2\ApplicationStart.class
+jhony\villani\springboot2\controller\FilmeController.class
+jhony\villani\springboot2\util\DateUtil.class
 jhony\villani\springboot2\domain\Filme.class

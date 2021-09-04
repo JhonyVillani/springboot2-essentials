@@ -1,45 +1,46 @@
 package jhony.villani.springboot2essentials.service;
 
 import jhony.villani.springboot2essentials.domain.Filme;
+import jhony.villani.springboot2essentials.repository.FilmeRepository;
+import jhony.villani.springboot2essentials.requests.FilmePostRequestBody;
+import jhony.villani.springboot2essentials.requests.FilmePutRequestBody;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service
+@RequiredArgsConstructor
 public class FilmeService {
-    private static List<Filme> filmes;
 
-    static {
-        filmes = new ArrayList<>(List.of(new Filme(1L,"Tron"), new Filme(2L,"O Jogo da Imitação"), new Filme(3L,"Interestelar")));
-    }
+    private final FilmeRepository filmeRepository;
 
-    //private final FilmeRepository filmeRepository
     public List<Filme> listAll(){
-        return filmes;
+        return filmeRepository.findAll();
     }
-    public Filme findById(long id){
-        return filmes.stream()
-                .filter(filme -> filme.getId().equals(id))
-                .findFirst()
+
+    public Filme findByIdOrThrowRequestException(long id){
+        return  filmeRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Filme not Found"));
     }
 
-    public Filme save(Filme filme) {
-        filme.setId(ThreadLocalRandom.current().nextLong(3, 1000000));
-        filmes.add(filme);
-        return filme;
+    public Filme save(FilmePostRequestBody filmePostRequestBody) {
+        return filmeRepository.save(Filme.builder().name(filmePostRequestBody.getName()).build());
     }
 
     public void delete(long id) {
-        filmes.remove(findById(id));
+        filmeRepository.delete(findByIdOrThrowRequestException(id));
     }
 
-    public void replace(Filme filme) {
-        delete(filme.getId());
-        filmes.add(filme);
+    public void replace(FilmePutRequestBody filmePutRequestBody) {
+        Filme savedFilme = findByIdOrThrowRequestException(filmePutRequestBody.getId());
+        Filme filme = Filme.builder()
+                .id(savedFilme.getId())
+                .name(filmePutRequestBody.getName())
+                .build();
+
+        filmeRepository.save(filme);
     }
 }

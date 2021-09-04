@@ -1,6 +1,8 @@
 package jhony.villani.springboot2essentials.controller;
 
 import jhony.villani.springboot2essentials.domain.Filme;
+import jhony.villani.springboot2essentials.requests.FilmePostRequestBody;
+import jhony.villani.springboot2essentials.requests.FilmePutRequestBody;
 import jhony.villani.springboot2essentials.service.FilmeService;
 import jhony.villani.springboot2essentials.util.DateUtil;
 import lombok.RequiredArgsConstructor;
@@ -29,12 +31,12 @@ public class FilmeController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Filme> findById(@PathVariable long id){
-        return ResponseEntity.ok(filmeService.findById(id));
+        return ResponseEntity.ok(filmeService.findByIdOrThrowRequestException(id));
     }
 
     @PostMapping
-    public ResponseEntity<Filme> save(@RequestBody Filme filme){
-        return new ResponseEntity<>(filmeService.save(filme), HttpStatus.CREATED);
+    public ResponseEntity<Filme> save(@RequestBody FilmePostRequestBody filmePostRequestBody){
+        return new ResponseEntity<>(filmeService.save(filmePostRequestBody), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/{id}")
@@ -44,8 +46,8 @@ public class FilmeController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> replace(@RequestBody Filme filme){
-        filmeService.replace(filme);
+    public ResponseEntity<Void> replace(@RequestBody FilmePutRequestBody filmePutRequestBody){
+        filmeService.replace(filmePutRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

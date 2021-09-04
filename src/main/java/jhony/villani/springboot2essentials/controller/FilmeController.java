@@ -36,4 +36,10 @@ public class FilmeController {
     public ResponseEntity<Filme> save(@RequestBody Filme filme){
         return new ResponseEntity<>(filmeService.save(filme), HttpStatus.CREATED);
     }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable long id){
+        filmeService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

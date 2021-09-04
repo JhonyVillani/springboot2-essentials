@@ -1,6 +1,7 @@
 package jhony.villani.springboot2essentials.service;
 
 import jhony.villani.springboot2essentials.domain.Filme;
+import jhony.villani.springboot2essentials.mapper.FilmeMapper;
 import jhony.villani.springboot2essentials.repository.FilmeRepository;
 import jhony.villani.springboot2essentials.requests.FilmePostRequestBody;
 import jhony.villani.springboot2essentials.requests.FilmePutRequestBody;
@@ -27,7 +28,7 @@ public class FilmeService {
     }
 
     public Filme save(FilmePostRequestBody filmePostRequestBody) {
-        return filmeRepository.save(Filme.builder().name(filmePostRequestBody.getName()).build());
+        return filmeRepository.save(FilmeMapper.INSTANCE.toFilme(filmePostRequestBody));
     }
 
     public void delete(long id) {
@@ -36,11 +37,8 @@ public class FilmeService {
 
     public void replace(FilmePutRequestBody filmePutRequestBody) {
         Filme savedFilme = findByIdOrThrowRequestException(filmePutRequestBody.getId());
-        Filme filme = Filme.builder()
-                .id(savedFilme.getId())
-                .name(filmePutRequestBody.getName())
-                .build();
-
+        Filme filme = FilmeMapper.INSTANCE.toFilme(filmePutRequestBody);
+        filme.setId(savedFilme.getId());
         filmeRepository.save(filme);
     }
 }

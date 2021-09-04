@@ -1,6 +1,7 @@
 package jhony.villani.springboot2essentials.controller;
 
 import jhony.villani.springboot2essentials.domain.Filme;
+import jhony.villani.springboot2essentials.service.FilmeService;
 import jhony.villani.springboot2essentials.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -12,21 +13,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("filme")
+@RequestMapping("filmes")
 @Log4j2
-//@AllArgsConstructor //inicia todos os componentes da classe
 @RequiredArgsConstructor //inicia todos os componentes com final, nem necessitar de construtor
 public class FilmeController {
     private final DateUtil dateUtil;
+    private final FilmeService filmeService;
 
-//    public FilmeController(DateUtil dateUtil) {
-//        this.dateUtil = dateUtil;
-//    }
-
-    //equivalente à localhost:8080/filme/list
-    @GetMapping(path = "list")
+    @GetMapping
     public List<Filme> list(){
         log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
-        return List.of(new Filme("Tron"), new Filme("O Jogo da Imitação"), new Filme("Interestelar"));
+        return filmeService.listAll();
     }
 }

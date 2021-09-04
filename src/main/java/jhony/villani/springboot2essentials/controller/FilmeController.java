@@ -42,4 +42,10 @@ public class FilmeController {
         filmeService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PutMapping
+    public ResponseEntity<Void> replace(@RequestBody Filme filme){
+        filmeService.replace(filme);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

@@ -37,4 +37,9 @@ public class FilmeService {
     public void delete(long id) {
         filmes.remove(findById(id));
     }
+
+    public void replace(Filme filme) {
+        delete(filme.getId());
+        filmes.add(filme);
+    }
 }

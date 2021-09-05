@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class FilmeController {
     }
 
     @PostMapping
-    public ResponseEntity<Filme> save(@RequestBody FilmePostRequestBody filmePostRequestBody){
+    public ResponseEntity<Filme> save(@RequestBody @Valid FilmePostRequestBody filmePostRequestBody){
         return new ResponseEntity<>(filmeService.save(filmePostRequestBody), HttpStatus.CREATED);
     }
 

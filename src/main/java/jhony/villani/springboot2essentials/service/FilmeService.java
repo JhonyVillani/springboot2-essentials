@@ -33,13 +33,10 @@ public class FilmeService {
                 .orElseThrow(() -> new BadRequestException("Filme not Found"));
     }
 
-    @Transactional //não gera rollback para Exceções do tipo checked
-    //@Transactional(rollbackFor = Exception.class) //se for o caso, necessário esta tag
+    @Transactional
     public Filme save(FilmePostRequestBody filmePostRequestBody) {
-        Filme save =  filmeRepository.save(FilmeMapper.INSTANCE.toFilme(filmePostRequestBody));
-        if(true)
-            throw new RuntimeException("bad code");
-            return save;
+        //if(filmePostRequestBody.getName() == null)
+        return  filmeRepository.save(FilmeMapper.INSTANCE.toFilme(filmePostRequestBody));
     }
 
     public void delete(long id) {

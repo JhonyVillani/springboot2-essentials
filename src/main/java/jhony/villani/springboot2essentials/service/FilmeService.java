@@ -35,7 +35,6 @@ public class FilmeService {
 
     @Transactional
     public Filme save(FilmePostRequestBody filmePostRequestBody) {
-        //if(filmePostRequestBody.getName() == null)
         return  filmeRepository.save(FilmeMapper.INSTANCE.toFilme(filmePostRequestBody));
     }
 

@@ -34,6 +34,11 @@ public class FilmeController {
         return ResponseEntity.ok(filmeService.findByIdOrThrowRequestException(id));
     }
 
+    @GetMapping(path = "/find")
+    public ResponseEntity<List<Filme>> findByName(@RequestParam String name){
+        return ResponseEntity.ok(filmeService.findByName(name));
+    }
+
     @PostMapping
     public ResponseEntity<Filme> save(@RequestBody FilmePostRequestBody filmePostRequestBody){
         return new ResponseEntity<>(filmeService.save(filmePostRequestBody), HttpStatus.CREATED);

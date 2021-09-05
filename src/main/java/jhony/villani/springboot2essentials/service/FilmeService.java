@@ -1,6 +1,7 @@
 package jhony.villani.springboot2essentials.service;
 
 import jhony.villani.springboot2essentials.domain.Filme;
+import jhony.villani.springboot2essentials.exception.BadRequestException;
 import jhony.villani.springboot2essentials.mapper.FilmeMapper;
 import jhony.villani.springboot2essentials.repository.FilmeRepository;
 import jhony.villani.springboot2essentials.requests.FilmePostRequestBody;
@@ -22,9 +23,13 @@ public class FilmeService {
         return filmeRepository.findAll();
     }
 
+    public List<Filme> findByName(String name){
+        return filmeRepository.findByName(name);
+    }
+
     public Filme findByIdOrThrowRequestException(long id){
         return  filmeRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Filme not Found"));
+                .orElseThrow(() -> new BadRequestException("Filme not Found"));
     }
 
     public Filme save(FilmePostRequestBody filmePostRequestBody) {

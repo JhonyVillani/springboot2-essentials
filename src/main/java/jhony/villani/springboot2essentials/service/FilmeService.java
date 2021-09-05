@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -32,8 +33,13 @@ public class FilmeService {
                 .orElseThrow(() -> new BadRequestException("Filme not Found"));
     }
 
+    @Transactional //não gera rollback para Exceções do tipo checked
+    //@Transactional(rollbackFor = Exception.class) //se for o caso, necessário esta tag
     public Filme save(FilmePostRequestBody filmePostRequestBody) {
-        return filmeRepository.save(FilmeMapper.INSTANCE.toFilme(filmePostRequestBody));
+        Filme save =  filmeRepository.save(FilmeMapper.INSTANCE.toFilme(filmePostRequestBody));
+        if(true)
+            throw new RuntimeException("bad code");
+            return save;
     }
 
     public void delete(long id) {
